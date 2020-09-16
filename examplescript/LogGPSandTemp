@@ -2,14 +2,21 @@
 ## Example of API call script
 ## GPS and temperature logging to csv
 
-## Token file
-access_token_file="${HOME}/.access_token"
-access_token=$(cat ${access_token_file})
-
 # please change these variables
 templogfile=./templog.csv
 org_id=""
 device_id=""
+
+## Token file
+access_token_file="${HOME}/.access_token"
+access_token=$(cat ${access_token_file})
+
+tmpfile="/tmp/ic2.tmpfile.$$"
+
+if [ -z "$api_server_prefix" ]
+then
+        api_server_prefix="https://api.ic.peplink.com"
+fi
 
 echo ""
 echo "Logging temp"
