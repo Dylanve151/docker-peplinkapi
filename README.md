@@ -13,4 +13,4 @@ API_RedirectUri =
 
 ### Optional:
  
-
+api_server_prefix = https://api.ic.peplink.com
