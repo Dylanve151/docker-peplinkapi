@@ -9,8 +9,8 @@ API_ClientID =
 
 API_ClientSecret = 
 
-API_RedirectUri = 
+API_RedirectUri = For example: https://peplink.com
 
 ### Optional:
  
-api_server_prefix = https://api.ic.peplink.com
+api_server_prefix = For example: https://api.ic.peplink.com
