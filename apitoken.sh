@@ -118,3 +118,9 @@ else
         fi
 fi
 rm -f $tmpfile
+
+SCRIPTS=/scripts/*.sh
+for f in $SCRIPTS
+do
+        sh "$f"
+done
