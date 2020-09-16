@@ -4,6 +4,7 @@
 ## Revision 1.3
 ## Last modified: 2019-06-21
 ## By Billy Lau, Michael Chan
+## Modified for docker by Dylan
 
 #
 ## Please input your InControl 2 OAuth client_id, client_secret and redirect_uri below
@@ -104,6 +105,7 @@ else
                 fi
 
                 ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}"
+        ## No interaction needed
         else
                 ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials"
         fi
