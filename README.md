@@ -1,7 +1,7 @@
 # docker-peplinkapi
 deploy:
 ```
-docker build --name="" --restart="always" --volume="/etc/localtime:/etc/localtime:ro" dylanve115/
+docker build --name="PeplinkAPI" --restart="always" --volume="/etc/localtime:/etc/localtime:ro" dylanve115/peplinkapi
 ```
 ## Environment variables:
 ### Required:
