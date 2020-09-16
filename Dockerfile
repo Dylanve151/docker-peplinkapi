@@ -12,4 +12,3 @@ ENV api_server_prefix https://api.ic.peplink.com
 COPY apitoken.sh .
 RUN touch log.log
 RUN chmod 755 *.sh
-CMD [ "./addcronjob.sh" ]
