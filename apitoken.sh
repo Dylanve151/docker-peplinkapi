@@ -13,13 +13,17 @@
 ##
 ## For the redirect_uri, you may fill in http://www.peplink.com in the above form
 ## and the redirect_uri variable below
-client_id=""
-client_secret=""
-redirect_uri=""
+client_id=$API_ClientID
+client_secret=$API_ClientSecret
+grant_type=$API_GrantType
+redirect_uri=$API_RedirectUri 
 
 # For InControl 2, the api_server_prefix is https://api.ic.peplink.com.
 # For InControl appliances, this is https://{SERVER_NAME_HERE}.
-api_server_prefix="https://api.ic.peplink.com"
+if [ -z "$api_server_prefix" ]
+then
+        api_server_prefix="https://api.ic.peplink.com"
+fi
 
 # For InControl 2, set 1 to verify the API service's SSL certificate.
 # For InControl appliances without a valid SSL certificate, set this to 0 to ignore the certificate validity.
@@ -84,21 +88,25 @@ elif [ -f ${refresh_token_file} ] && [ $(stat -c %Y ${refresh_token_file}) -gt $
                 exit 4
         fi
 else
-        echo ""
-        echo "Start a web browser, visit the following URL and follow the instructions."
-        echo ""
-        echo "${ic2_auth_url}"
-        echo ""
-        echo "You will be redirected to $redirect_uri?code=CODE_HERE."
-        echo -n "Please enter the 'code' in the redirected URL here: "
-        read code
+        if [ "${grant_type}" == "authorization_code" ]; then
+                echo ""
+                echo "Start a web browser, visit the following URL and follow the instructions."
+                echo ""
+                echo "${ic2_auth_url}"
+                echo ""
+                echo "You will be redirected to $redirect_uri?code=CODE_HERE."
+                echo -n "Please enter the 'code' in the redirected URL here: "
+                read code
 
-        if [ "${code}" == "" ]; then
-                echo "Error: The code is empty.  Process aborted"
-                exit 5
+                if [ "${code}" == "" ]; then
+                        echo "Error: The code is empty.  Process aborted"
+                        exit 5
+                fi
+
+                ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}"
+        else
+                ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials"
         fi
-
-        ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}"
 
         ## POST data to token endpoint
         curl $curl_opt -so $tmpfile --data "${ic2_token_params}" "${ic2_token_url}"
