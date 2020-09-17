@@ -9,7 +9,7 @@ API_ClientID =
 
 API_ClientSecret = 
 
-API_GrantType = **authorization_code** or **client_credentials** (**client_credentials** is default.**client_credentials** requires no interaction)
+API_GrantType = **client_credentials** or **authorization_code** (**client_credentials** is default. **client_credentials** requires no interaction)
 
 API_RedirectUri = For example: https://peplink.com
 
