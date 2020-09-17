@@ -18,7 +18,7 @@ API_RedirectUri = For example: https://peplink.com (Only required when using **a
 api_server_prefix = By default https://api.ic.peplink.com for use with https://incontrol2.peplink.com
 
 ## Volumes:
-sycning time with host: /etc/localtime:/etc/localtime:ro
+sycning time with host: /etc/localtime (use as /etc/localtime:/etc/localtime:ro)
 
 Bind to folder with scripts: /scripts
 
