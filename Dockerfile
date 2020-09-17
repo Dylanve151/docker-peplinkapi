@@ -11,5 +11,6 @@ ENV API_RedirectUri https://peplink.com
 ENV API_GrantType client_credentials
 ENV api_server_prefix https://api.ic.peplink.com
 COPY apitoken.sh .
+RUN crontab -u root crontab-template
 RUN touch log.log
-RUN chmod 755 *.sh
+RUN chmod 755 *.sh && chmod 755 /scripts/*.sh
