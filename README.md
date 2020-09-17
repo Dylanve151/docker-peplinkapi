@@ -15,4 +15,4 @@ API_RedirectUri = For example: https://peplink.com (Only required when using **a
 
 ### Optional:
  
-api_server_prefix = For example: https://api.ic.peplink.com
+api_server_prefix = By default https://api.ic.peplink.com for use with https://incontrol2.peplink.com
