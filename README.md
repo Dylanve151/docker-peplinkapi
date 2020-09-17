@@ -21,3 +21,5 @@ api_server_prefix = By default https://api.ic.peplink.com for use with https://i
 sycning time with host: /etc/localtime:/etc/localtime:ro
 
 Bind to folder with scripts: /scripts
+
+Bind to custom crontab file: /var/spool/cron/crontabs/root
