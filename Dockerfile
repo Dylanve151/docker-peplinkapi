@@ -15,4 +15,4 @@ COPY apitoken.sh .
 COPY crontab-template .
 RUN crontab -u root crontab-template
 RUN touch log.log
-RUN chmod 755 *.sh && chmod 755 /scripts/*.sh
+RUN chmod 755 *.sh
