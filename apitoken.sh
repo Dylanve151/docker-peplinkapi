@@ -39,8 +39,13 @@ ic2_token_url="${api_server_prefix}/api/oauth2/token"
 # InControl authorization endpoint
 ic2_auth_url="${api_server_prefix}/api/oauth2/auth?client_id=${client_id}&response_type=code"
 
-if [ "${client_id}" == "" ] || [ "${client_secret}" == "" ] || [ "${redirect_uri}" == "" ]; then
-        echo "Please edit this script and enter Client ID and Client Secret"
+if [ "${client_id}" == "" ] || [ "${client_secret}" == "" ]; then
+        echo "Please enter Client ID and Client Secret"
+        exit 1
+fi
+
+if [ "${grant_type}" == "authorization_code" ] && [ "${redirect_uri}" == "" ]; then
+        echo "Please enter redirect uri"
         exit 1
 fi
 
