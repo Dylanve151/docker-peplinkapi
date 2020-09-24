@@ -19,6 +19,12 @@ client_secret=$API_ClientSecret
 grant_type=$API_GrantType
 redirect_uri=$API_RedirectUri 
 
+if [ -f "/root/.apiclient" ]
+then
+        client_id=$(sed -n 1p /root/.apiclient)
+        client_secret=$(sed -n 2p /root/.apiclient)
+fi
+
 # For InControl 2, the api_server_prefix is https://api.ic.peplink.com.
 # For InControl appliances, this is https://{SERVER_NAME_HERE}.
 if [ -z "$api_server_prefix" ]
