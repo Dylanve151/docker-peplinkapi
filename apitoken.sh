@@ -14,10 +14,10 @@
 ##
 ## For the redirect_uri, you may fill in http://www.peplink.com in the above form
 ## and the redirect_uri variable below
-client_id=$API_ClientID
-client_secret=$API_ClientSecret
-grant_type=$API_GrantType
-redirect_uri=$API_RedirectUri 
+client_id=$(cat /verbs/API_ClientID)
+client_secret=$(cat /verbs/API_ClientSecret)
+grant_type=$(cat /verbs/API_GrantType)
+redirect_uri=$(cat /verbs/API_RedirectUri)
 
 if [ -f "/root/.apiclient" ]
 then
