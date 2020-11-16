@@ -16,3 +16,4 @@ COPY crontab-template .
 RUN crontab -u root crontab-template
 RUN touch log.log
 RUN chmod 755 *.sh
+CMD ["./startup.sh"]
