@@ -1,10 +1,12 @@
 #!/bin/bash
 
-## Sample script for making IC2 API calls
+## Script for making IC2 and device API tokens
 ## Revision 1.3
-## Last modified: 2019-06-21
 ## By Billy Lau, Michael Chan
-## Modified for docker by Dylan
+
+## Modified by Dylan
+## Last modified: 2020-11-17
+## Modification: Modified for docker and also works with device API.
 
 #
 ## Please input your InControl 2 OAuth client_id, client_secret and redirect_uri below
@@ -163,8 +165,8 @@ fi
 rm -f $tmpfile
 
 ## runs every file ending with .sh in the /scripts folder
-SCRIPTS=/scripts/*.sh
-for f in $SCRIPTS
-do
-        sh "$f"
-done
+#SCRIPTS=/scripts/*.sh
+#for f in $SCRIPTS
+#do
+#        sh "$f"
+#done
