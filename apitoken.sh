@@ -78,25 +78,43 @@ else
         curl_opt=""
 fi
 
-function save_tokens() {
-        result=$(cat)
-        local -n access_token_tmp=$1
-        local -n refresh_token_tmp=$2
-        access_token_tmp=`echo "${result}"|jq -r .access_token`
-        refresh_token_tmp=`echo "${result}"|jq -r .refresh_token`
-        expires_in=`echo "${result}"|jq -r .expires_in`
-        if [ "${access_token_tmp}" == "" ]; then
-                echo "Unable to obtain an access token. Process aborted"
-                echo "Returned: $result"
-                exit 3
-        fi
-        # Save the access token and refresh token."
-        echo ${access_token_tmp} > ${access_token_file}
-        echo ${refresh_token_tmp} > ${refresh_token_file}
-        # Set the files' last modified date to the tokens' expiry date
-        touch -d @$(( $(date +%s) + expires_in )) ${access_token_file}
-        touch -d @$(( $(date +%s) + expires_in + 30*60*60 )) ${refresh_token_file}
-}
+if [ "${client_type}" == "device" ]; then
+        function save_tokens() {
+                result=$(jq -r .response)
+                local -n access_token_tmp=$1
+                access_token_tmp=`echo "${result}"|jq -r .accessToken`
+                expires_in=`echo "${result}"|jq -r .expiresIn`
+                if [ "${access_token_tmp}" == "" ]; then
+                        echo "Unable to obtain an access token. Process aborted"
+                        echo "Returned: $result"
+                        exit 3
+                fi
+                # Save the access token and refresh token."
+                echo ${access_token_tmp} > ${access_token_file}
+                # Set the files' last modified date to the tokens' expiry date
+                touch -d @$(( $(date +%s) + expires_in )) ${access_token_file}
+        }
+else
+        function save_tokens() {
+                result=$(cat)
+                local -n access_token_tmp=$1
+                local -n refresh_token_tmp=$2
+                access_token_tmp=`echo "${result}"|jq -r .access_token`
+                refresh_token_tmp=`echo "${result}"|jq -r .refresh_token`
+                expires_in=`echo "${result}"|jq -r .expires_in`
+                if [ "${access_token_tmp}" == "" ]; then
+                        echo "Unable to obtain an access token. Process aborted"
+                        echo "Returned: $result"
+                        exit 3
+                fi
+                # Save the access token and refresh token."
+                echo ${access_token_tmp} > ${access_token_file}
+                echo ${refresh_token_tmp} > ${refresh_token_file}
+                # Set the files' last modified date to the tokens' expiry date
+                touch -d @$(( $(date +%s) + expires_in )) ${access_token_file}
+                touch -d @$(( $(date +%s) + expires_in + 30*60*60 )) ${refresh_token_file}
+        }
+fi
 
 # If the access token file has not expired
 if [ -f ${access_token_file} ] && [ $(stat -c %Y ${access_token_file}) -gt $(date +%s) ]; then
