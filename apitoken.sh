@@ -14,10 +14,12 @@
 ##
 ## For the redirect_uri, you may fill in http://www.peplink.com in the above form
 ## and the redirect_uri variable below
+client_type$(cat /verbs/API_Clienttype)
 client_id=$(cat /verbs/API_ClientID)
 client_secret=$(cat /verbs/API_ClientSecret)
 grant_type=$(cat /verbs/API_GrantType)
 redirect_uri=$(cat /verbs/API_RedirectUri)
+api_server_prefix=$(cat /verbs/api_server_prefix)
 
 if [ -f "/root/.apiclient" ]
 then
@@ -34,25 +36,33 @@ fi
 
 # For InControl 2, set 1 to verify the API service's SSL certificate.
 # For InControl appliances without a valid SSL certificate, set this to 0 to ignore the certificate validity.
-verify_ssl_cert=1
+if [ "${client_type}" == "device" ]; then
+        verify_ssl_cert=0
+else
+        verify_ssl_cert=1
+fi
 
 ################# Code for OAuth2 token handling goes below ##################
 access_token_file="${HOME}/.access_token"
 refresh_token_file="${HOME}/.refresh_token"
 tmpfile="/tmp/ic2.tmpfile.$$"
-# InControl token endpoint
-ic2_token_url="${api_server_prefix}/api/oauth2/token"
-# InControl authorization endpoint
-ic2_auth_url="${api_server_prefix}/api/oauth2/auth?client_id=${client_id}&response_type=code"
+if [ "${client_type}" == "device" ]; then
+        ic2_token_url="${api_server_prefix}/api/auth.token.grant"
+else
+        # InControl token endpoint
+        ic2_token_url="${api_server_prefix}/api/oauth2/token"
+        # InControl authorization endpoint
+        ic2_auth_url="${api_server_prefix}/api/oauth2/auth?client_id=${client_id}&response_type=code"
 
-if [ "${client_id}" == "" ] || [ "${client_secret}" == "" ]; then
-        echo "Please enter Client ID and Client Secret"
-        exit 1
-fi
+        if [ "${client_id}" == "" ] || [ "${client_secret}" == "" ]; then
+                echo "Please enter Client ID and Client Secret"
+                exit 1
+        fi
 
-if [ "${grant_type}" == "authorization_code" ] && [ "${redirect_uri}" == "" ]; then
-        echo "Please enter redirect uri"
-        exit 1
+        if [ "${grant_type}" == "authorization_code" ] && [ "${redirect_uri}" == "" ]; then
+                echo "Please enter redirect uri"
+                exit 1
+        fi
 fi
 
 # Check if jq has been installed
@@ -100,7 +110,7 @@ elif [ -f ${refresh_token_file} ] && [ $(stat -c %Y ${refresh_token_file}) -gt $
                 exit 4
         fi
 else
-        if [ "${grant_type}" == "authorization_code" ]; then
+        if [ "${grant_type}" == "authorization_code" ] || [ "${client_type}" != "device" ]; then
                 echo ""
                 echo "Start a web browser, visit the following URL and follow the instructions."
                 echo ""
@@ -118,7 +128,11 @@ else
                 ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}"
         ## No interaction needed
         else
-                ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials"
+                if [ "${client_type}" == "device" ]; then
+                        ic2_token_params="clientId=${client_id}&clientSecret=${client_secret}&scope=api"
+                else
+                        ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials"
+                fi
         fi
 
         ## POST data to token endpoint
