@@ -15,8 +15,8 @@ ENV api_server_prefix https://api.ic.peplink.com
 COPY startup.sh .
 COPY apitoken.bash .
 RUN mkdir /verbs
-RUN echo "* * * * * /root/apitoken.bash >> /root/log.log"$'\n' > /etc/cron.d/gen_apitoken
-RUN echo "* * * * * SCRIPTS=/scripts/*.sh; for f in $SCRIPTS; do sh \"$f\"; done >> /root/log.log"$'\n' > /etc/cron.d/scripts
+RUN echo "* * * * * /root/apitoken.bash >> /root/log.log"'\n' > /etc/cron.d/gen_apitoken
+RUN echo "* * * * * SCRIPTS=/scripts/*.sh; for f in $SCRIPTS; do sh \"$f\"; done >> /root/log.log"'\n' > /etc/cron.d/scripts
 RUN touch log.log
 RUN chmod 755 startup.sh
 RUN chmod 755 apitoken.bash
