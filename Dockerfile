@@ -18,5 +18,6 @@ COPY crontab-template .
 RUN mkdir /verbs
 RUN crontab -u root crontab-template
 RUN touch log.log
-RUN chmod 755 *.sh
+RUN chmod 755 startup.sh
+RUN chmod 755 apitoken.bash
 CMD ["./startup.sh"]
