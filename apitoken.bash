@@ -16,7 +16,7 @@
 ##
 ## For the redirect_uri, you may fill in http://www.peplink.com in the above form
 ## and the redirect_uri variable below
-client_type$(cat /verbs/API_Clienttype)
+client_type=$(cat /verbs/API_Clienttype)
 client_id=$(cat /verbs/API_ClientID)
 client_secret=$(cat /verbs/API_ClientSecret)
 grant_type=$(cat /verbs/API_GrantType)
