@@ -24,4 +24,4 @@ sycning time with host: /etc/localtime (use as /etc/localtime:/etc/localtime:ro)
 
 Bind to folder with scripts: /scripts (make sure you save scripts as unix not as dos/windows)
 
-Bind to folder to edit crontab: /var/spool/cron/crontabs (make sure you save crontab files as unix not as dos/windows)
+Bind to folder to edit crontab: /etc/cron.d/ (make sure you save crontab files as unix not as dos/windows)
