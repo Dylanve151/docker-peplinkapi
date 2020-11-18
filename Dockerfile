@@ -13,7 +13,7 @@ ENV API_RedirectUri https://peplink.com
 ENV API_GrantType client_credentials
 ENV api_server_prefix https://api.ic.peplink.com
 COPY startup.sh .
-COPY apitoken.sh .
+COPY apitoken.bash .
 COPY crontab-template .
 RUN mkdir /verbs
 RUN crontab -u root crontab-template
