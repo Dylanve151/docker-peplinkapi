@@ -16,7 +16,7 @@ COPY startup.sh .
 COPY apitoken.bash .
 COPY crontab-template .
 RUN mkdir /verbs
-RUN crontab -u root crontab-template
+RUN echo "* * * * * /root/apitoken.bash >> /root/log.log"$'\n' > /etc/cron.d/gen_apitoken
 RUN touch log.log
 RUN chmod 755 startup.sh
 RUN chmod 755 apitoken.bash
