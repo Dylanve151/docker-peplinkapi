@@ -130,7 +130,7 @@ elif [ -f ${refresh_token_file} ] && [ $(stat -c %Y ${refresh_token_file}) -gt $
                 exit 4
         fi
 else
-        if [ "${grant_type}" == "authorization_code" ] || [ "${client_type}" != "device" ]; then
+        if [ "${grant_type}" == "authorization_code" ] && [ "${client_type}" != "device" ]; then
                 echo ""
                 echo "Start a web browser, visit the following URL and follow the instructions."
                 echo ""
