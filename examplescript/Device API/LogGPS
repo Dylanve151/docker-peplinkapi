@@ -18,14 +18,20 @@ echo "Logging GPS..."
 
 token_params="accessToken=${access_token}"
 curl $curl_opt -so $tmpfile --data "${token_params}" "${api_server_prefix}/api/info.location"
+reqstat=$(jq -r '.stat' $tmpfile)
 if grep -q Unauthorized $tmpfile ; then
-      echo "The saved access token is invalid.  Rerun this script to obtain a new one"
-      rm -f ${access_token_file}
-      exit 7
+	echo "The saved access token is invalid.  Rerun this script to obtain a new one"
+	rm -f ${access_token_file}
+	exit 7
+fi
+
+if [ "${reqstat}" == "fail" ] ; then
+	jq -r '.' $tmpfile
+	exit 7
 fi
 
 gpsstat=$(jq -r '.response.gps' $tmpfile)
-if $gpsstat == "true" ; then
+if [ "${gpsstat}" == "true" ] ; then
 	loctime=$(jq -r '.response.location.timestamp' $tmpfile)
 	ts=$(date +"%s")
 	latitude=$(jq -r '.response.location.latitude' $tmpfile)
