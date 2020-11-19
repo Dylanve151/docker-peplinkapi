@@ -8,5 +8,8 @@ echo "$API_GrantType" >  /verbs/API_GrantType
 echo "$API_RedirectUri" > /verbs/API_RedirectUri
 echo "$api_server_prefix" > /verbs/api_server_prefix
 
+chown root:root /etc/cron.d/*
+chmod 644 /etc/cron.d/*
+
 service cron start
 tail -f log.log
