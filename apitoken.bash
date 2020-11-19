@@ -74,7 +74,7 @@ if ! command -v jq > /dev/null 2>&1 ; then
         exit 2
 fi
 
-if [ "$verify_ssl_cert" != "0" ]; then
+if [ "$verify_ssl_cert" == "0" ]; then
         curl_opt=" -k "
 else
         curl_opt=""
