@@ -119,10 +119,10 @@ else
 fi
 
 # If the access token file has not expired
-if [ -f ${access_token_file} ] && [ $(stat -c %Y ${access_token_file}) -gt $(date +%s) ]; then
+if [ -f ${access_token_file} ] && [ $(stat -c %Y ${access_token_file}) -gt $(date -d '+6 hours' +%s) ]; then
         access_token=$(cat ${access_token_file})
 # If the access token is invalid but the refresh token has not expired, acquire new access and refresh tokens
-elif [ -f ${refresh_token_file} ] && [ $(stat -c %Y ${refresh_token_file}) -gt $(date +%s) ]; then
+elif [ -f ${refresh_token_file} ] && [ $(stat -c %Y ${refresh_token_file}) -gt $(date -d '+6 hours' +%s) ]; then
         ic2_token_params="client_id=${client_id}&client_secret=${client_secret}&grant_type=refresh_token&refresh_token=$(cat ${refresh_token_file})"
         curl $curl_opt -so $tmpfile -X POST -d "$ic2_token_params" "${ic2_token_url}"
         if ! save_tokens access_token refresh_token < $tmpfile; then
