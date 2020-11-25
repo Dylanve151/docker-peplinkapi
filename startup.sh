@@ -12,4 +12,4 @@ chown root:root /etc/cron.d/*
 chmod 644 /etc/cron.d/*
 
 service cron start
-tail -f log.log
+tail -fn0 log.log
